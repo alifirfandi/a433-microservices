@@ -1,0 +1,53 @@
+# version docker compose
+version: '3.7'
+
+services:
+  # container for app
+  item-app:
+
+    # get image from docker hub
+    image: "alif1811/item-app:v1"
+
+    # expose container port 8080 to host port 80
+    ports:
+      - "80:8080"
+
+    # run this container after item-db container
+    depends_on:
+      - item-db
+
+    # always restart if container stop
+    restart: always
+
+    # connect to bridge network
+    networks:
+      - network-app
+
+  # container for database 
+  item-db:
+    # get mongo database image from docker hub
+    image: "mongo:3"
+
+    # expose container port 
+    ports:
+      - "27017:27017"
+
+    # use app-db volume for database
+    volumes:
+      - "app-db:/data/db"
+
+    # always restart if container stop
+    restart: always
+
+    # connect to bridge network
+    networks:
+      - network-app
+
+# create volume
+volumes:
+  app-db:
+
+# create bridge network for communication between container and database
+networks:
+  network-app:
+    driver: bridge
