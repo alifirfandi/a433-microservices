@@ -13,8 +13,8 @@ ENV NODE_ENV=production DB_HOST=item-db
 # install dependencies & build
 RUN npm install --production --unsafe-perm && npm run build
 
-# start the app
-CMD ["npm", "start"]
-
 # expose port
 EXPOSE 8080
+
+# start the app
+CMD ["npm", "start"]
